@@ -4,14 +4,19 @@
 #This first Prototype is using the file system in files 
 import my_module as mm
 
-
 while True:
-        try:
-            choice = str(input("Do You Want to create a new Record (y/n)"))
-            break
-        except ValueError:
-             print("Enter Only y or n")
-if choice.lower()=="y":
-    mm.createRecord()
-else:
-    print("Thank You For Using this Program! ")
+    try:
+        mm.menu()
+        choice = int(input("Enter Your Choice From the Above"))
+        if choice == 1:
+            mm.createRecord()
+        elif choice == 2:
+            mm.viewRecords()
+        elif choice == 3:
+            mm.addNewRecord()
+        elif choice == 4:
+            mm.delteRecords()
+        else:
+            print("The Choice you Enterd is wrong Try again!")
+    except:
+        print("Some Error Occured Check the Code and try again!")
