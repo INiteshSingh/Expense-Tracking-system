@@ -1,3 +1,4 @@
+import os
 #This Module is for storing all the functions for the Expense Tracking System 
 def menu():
     print("1.Create a New Record")
@@ -6,13 +7,24 @@ def menu():
     print("4.Delete a Record")
     print("5.Get The Record in Whatsapp Message")
 
+'''This Function When Called Creates a New Folder on the desktop named "Records" and all the records are present 
+    in that folder'''
 def createRecord():
-    with open('record.txt','w') as f:
-        data = "Python Expense Tracking System For Traking My Expenses"
-        f.write(data)
+    try:
+        path = "C:\\Users\\nt984858\\Desktop\\Records" #Path to the folder, edit it when using the program in your computer based on your own pc
+        if not os.path.exists(path):
+            os.makedirs(path)
+            print("Created a New Folder at {} Check if You Want.".format(str(path)))
+        with open('C:\\Users\\nt984858\\Desktop\\Records\\record.txt','w') as f: #Creates a new file Named record.txt to store the records in the records folder.
+            data = "Python Expense Tracking System For Traking My Expenses"
+            f.write(data)
+    except FileExistsError:
+        print("File Alreay Exits")
+    except :
+        print("Some Error Occured try again :/")
 
-'''The Following Function is to add a new record in the file, The parameter info is just string data that 
-   contains what did i buy in a specific time.'''
+'''The Following Function is to add a new record in the file, The parameter info is just storing data that 
+   contains what did i buy at a specific time.'''
 def addNewRecord(info):
     while True:
         try:
