@@ -1,29 +1,30 @@
-#This is the main file for creating a expense tracking system where the main purpose is to Tracking all my Purchases for 
-#Shop and save them in either a database or a text file
-
-#This first Prototype is using the file system in files 
-import my_module as mm
-
+#The Main File is For all the function calls 
+import my_module as m
 while True:
-    # try:
-        mm.menu()
-        print("*"*20)
-        choice = int(input("Enter Your Choice From the Above: "))
-        print("*"*20)
+    try:
+        m.menu()
+        print("*"*70)
+        choice = int(input("Enter Your Choice From The Above :"))
+        print("*"*70)
+        
         if choice == 1:
-            mm.createRecord() #This is not working see tommorow (20 march 2025)
+            m.createRecord()
             break
         elif choice == 2:
-            mm.viewRecords()
+            m.addNewRecord()
             break
         elif choice == 3:
-            mm.addNewRecord()
+            m.viewRecords()
             break
         elif choice == 4:
-            mm.delteRecords()
+            m.delteRecords()
             break
+        elif choice == 5:
+            print("The Whatsapp Functionality is still Under Development")
+            break   # For Future Function, here add the function to get the record to whatsapp
         else:
-            print("The Choice you Enterd is wrong Try again!")
-            break
-    # except:
-    #     print("Some Error Occured Check the Code and try again!")
+            print("Enter Only The Values From 1-5") 
+    except ValueError:
+        print("Enter Only Numerical Values for choice not anything else")
+    except :
+        print("Something Went Wrong Check the code")
