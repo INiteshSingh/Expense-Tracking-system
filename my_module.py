@@ -58,3 +58,15 @@ def delteRecords():
             f.write(" ")
     except FileNotFoundError:
             print("The Specified File does not exists check for code")
+
+'''Validations of Input for all the inputs in the Program'''
+
+def validate_choice(choice):
+    right_options = list(val for val in range(1,6))
+    if choice not in right_options:
+        print("Enter Only the Following Values: {}".format(right_options))
+
+def validate_choice1(choice):
+    right_options = ["y","n"] 
+    if choice not in right_options:
+        print("Enter Options only From {}".format(right_options))
