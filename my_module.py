@@ -1,4 +1,5 @@
 import os
+import my_classes as c
 #This Module is for storing all the functions for the Expense Tracking System 
 def menu():
     print("1.Create a New Record")
@@ -19,7 +20,7 @@ def createRecord():
             os.makedirs(File_path)
             print("Folder Created Successuflly at the following location {}".format(str(File_path)))
         with open( "C:\\Users\\nt984\\Desktop\\Expense-Tracking-System\\Records\\record1.txt",'w') as f: #Creates a new file Named record.txt to store the records in the records folder.
-            data = "Python Expense Tracking System For Traking My Expenses\nITEM_NAME\tITME_QUANTITY\tTOTAL_PRICE"
+            data = "Python Expense Tracking System For Traking My Expenses\n"
             f.write(data)
     except FileExistsError:
         print("File Alreay Exits")
@@ -27,20 +28,14 @@ def createRecord():
         print("Some Error Occured try again :/")
 
 
-'''The Following Function is to add a new record in the file, The parameter info is just storing data that 
-   contains what did i buy at a specific time.'''
+'''The Following Function is to add a new record in the file, The item.'''
 def addNewRecord():
         try:
-            print("Enter Data to Store in the Records")
-            data = str(input("Enter in the following format : item_Name Tab Quantity Tab Price"))
-            with open("C:\\Users\\nt984\\Desktop\\Expense-Tracking-system\\Records\\record1.txt",'a') as f:
-                f.write("\n")
-                f.write(data)
-            print("Data Written Successfully Check in the folder")
-        except FileNotFoundError:
-            print("The Specified file does not exists")
-        except:
-            print("Something went wrong in the code")
+            s = c.item()
+            s.getInfo()
+            s.writeData()
+        except :
+             print("Something Went Wrong Try again !")
         
 
 '''The Following Function is used to view all the current records, All the records are always in a single line.'''
