@@ -1,6 +1,18 @@
 import os
 import my_classes as c
 #This Module is for storing all the functions for the Expense Tracking System 
+
+def banner():
+    print(r"""  _______  ______  _____ _   _ ____  _____   
+ | ____\ \/ /  _ \| ____| \ | / ___|| ____|  
+ |  _|  \  /| |_) |  _| |  \| \___ \|  _|    
+ | |___ /  \|  __/| |___| |\  |___) | |___   
+ |_____/_/\_\_|   |_____|_| \_|____/|_____|  
+ |_   _|  _ \    / \  / ___| |/ / ____|  _ \ 
+   | | | |_) |  / _ \| |   | ' /|  _| | |_) |
+   | | |  _ <  / ___ \ |___| . \| |___|  _ < 
+   |_| |_| \_\/_/   \_\____|_|\_\_____|_| \_\
+                                             """)
 def menu():
     print("1.Create a New Record")
     print("2.Add New Records")

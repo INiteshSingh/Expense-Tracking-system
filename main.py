@@ -2,6 +2,7 @@
 import my_module as m
 try:
     while True:
+        m.banner()
         m.menu()
         print("*"*70)
         choice = int(input("Enter Your Choice From The Above :"))
@@ -15,6 +16,7 @@ try:
             if choice1.lower() == 'n':
                 print("\tThank You For Using this program")
                 break
+
         elif choice == 2:
             m.addNewRecord()
             choice1 = (input("Do You Want to Do Another Opertaion (y/n)"))
@@ -22,6 +24,7 @@ try:
             if choice1.lower() == 'n':
                 print("\tThank You For Using this program")
                 break
+
         elif choice == 3:
             m.viewRecords()
             choice1 = (input("Do You Want to Do Another Opertaion (y/n)"))
@@ -29,6 +32,7 @@ try:
             if choice.lower() == 'n':
                 print("\tThank You For Using this program")
                 break
+                
         elif choice == 4:
             m.deleteRecords()
             choice1 = (input("Do You Want to Do Another Opertaion (y/n)"))
