@@ -1,3 +1,5 @@
+import numpy as np
+import mysql.connector
 '''This file is to create a class based approach for writing data into the record'''
 
 '''Functions for validation'''
@@ -19,21 +21,34 @@ class item:
             print(k," ---> ",v)
 
     def writeData(self):
-        items_dict = {"Item Name => " : self.itemName,
-                      "Item Quantity => " : self.itemQuantity,
-                      "Item Price => " : self.itemPrice,
-                      "Item Total => " : self.itemTotal}
+        db_config = {
+            "host": "mysql.railway.internal",  # Replace with actual IP or localhost if needed
+            "user": "root",
+            "password": "ONGxOqFzIDdqDpHpSMsaIsBffkNfXvHW",  # Replace with your password
+            "database": "railway",  # Ensure this is the correct database name
+            "port": 3306  # Ensure this is an integer
+        }
+
+        print(f"Connecting with config: {db_config}")  # Debugging connection parameters
+
+        try:
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor()
+            print("✅ Successfully connected to Railway MySQL!")
+
+            sql = "INSERT INTO Store_items_list (Item_name, Item_quantity, Item_price) VALUES (%s, %s, %s);"
+            values = (self.itemName, self.itemQuantity, self.itemPrice)
+            cursor.execute(sql, values)
+            conn.commit()
+            print(f"Inserted {values}")
+
+            cursor.close()
+            conn.close()
+
+        except mysql.connector.Error as err:
+            print(f"Some Error Occurred: {err}")
         
-        print("Data Trying To Enter {}".format(items_dict))
-        choice = str(input("SAVE DATA ? (Y/N): "))
-        if choice != "y":
-            print("Thank You For Using This Program")
-        else:
-            with open('C:\\Users\\nt984\\Desktop\\Expense-Tracking-system\\Records\\record1.txt','a') as f:
-                data = str(items_dict)
-                f.write("\n")
-                f.write(data)
-                f.write("\n")
-            print("Data Saved Successfully")
-                
-                
+a = item()
+a.getInfo()
+a.writeData()
+

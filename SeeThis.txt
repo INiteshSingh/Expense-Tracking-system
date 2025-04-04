@@ -1,0 +1,5 @@
+This Branch Is Created so i can implement the data science based approach using numpy, pandas etc 
+The Main Desired OUTPUT is that to create a data base, which store the data off all the items i usually buy and is able to add
+add new items
+
+The DataBase will store the data regarding the items bought along with the date.
