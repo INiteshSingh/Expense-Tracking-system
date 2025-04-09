@@ -10,7 +10,7 @@ def validate_name(name):
 
 '''class for items objects'''
 class item:
-    def getInfo(self): 
+    def getInfo(self): #For Adding the data when purchasing new items
         self.itemName = str(input("Enter Item Name: "))
         self.itemQuantity = int(input("Enter Item Quantity: "))
         self.itemPrice = float(input("Enter The Price of a single Unit: "))
@@ -19,14 +19,14 @@ class item:
         print("Enterd Data: ")
         for k,v in self.__dict__.items():
             print(k," ---> ",v)
-
+    #mysql://root:mfcfnwwTVmVbvRbzOZlfeIIWrLEhSwrk@maglev.proxy.rlwy.net:21724/railway
     def writeData(self):
         db_config = {
-            "host": "mysql.railway.internal",  # Replace with actual IP or localhost if needed
+            "host": "maglev.proxy.rlwy.net",  # Replace with actual IP or localhost if needed
             "user": "root",
-            "password": "ONGxOqFzIDdqDpHpSMsaIsBffkNfXvHW",  # Replace with your password
+            "password": "mfcfnwwTVmVbvRbzOZlfeIIWrLEhSwrk",  # Replace with your password
             "database": "railway",  # Ensure this is the correct database name
-            "port": 3306  # Ensure this is an integer
+            "port": 21724  # Ensure this is an integer
         }
 
         print(f"Connecting with config: {db_config}")  # Debugging connection parameters
@@ -35,7 +35,7 @@ class item:
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
             print("✅ Successfully connected to Railway MySQL!")
-
+            
             sql = "INSERT INTO Store_items_list (Item_name, Item_quantity, Item_price) VALUES (%s, %s, %s);"
             values = (self.itemName, self.itemQuantity, self.itemPrice)
             cursor.execute(sql, values)
