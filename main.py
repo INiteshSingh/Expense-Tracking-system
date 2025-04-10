@@ -14,20 +14,22 @@ try:
 
         match choice:
             case 1:
-                m.createRecord()
+                m.createDatabase()
 
             case 2:
-                m.addNewRecord()
+                m.create_table_in_db()
             
             case 3:
-                m.viewRecords()
+                m.addNewRecord()
 
             case 4:
                 m.delteRecords()
 
             case 5:
                 print("The Whatsapp Function is still under development")
-    
+
+            case _:
+                print("Not a Valid input")
 except ValueError:
     print("Enter Correct Choice")
 

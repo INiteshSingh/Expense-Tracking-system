@@ -17,15 +17,14 @@ def banner():
                                              """)
 def menu():
     print("1.Create a New Data Base")
-    print("2.Add New Records")
-    print("3.View Current Records")
-    print("4.Delete a Record")
-    print("5.Get The Record in Whatsapp Message")
+    print("2.Create a New Table")
+    print("3.Add New Records")
+    print("4.View Current Records")
+    print("5.Delete a Record")
+    print("6.Perform an sql data base operation")
 
 
-'''This Function When Called Creates a New Folder on the desktop named "Records" and all the records are present 
-    in that folder'''
-
+'''Performs an sql operation on the local data base the parameter -sql- is the actual sql query '''
 def perform_sql_operation(sql):
     try:
         conn = mysql.connector.connect(
@@ -55,6 +54,8 @@ def createDatabase():
             print(f"Got input {agree}, Creating A New DataBase 🔄")
             db_name = str(input("Enter Your Desired Data Base Name: "))
             sql = f"CREATE DATABASE {db_name}"
+        else:
+             print("Thank You For Using the app :) ")
 
     except ValueError:
         print("Error Occured ❌, Enter Valid Input: ")
@@ -63,15 +64,15 @@ def createDatabase():
     return sql
 
 
-def create_table_in_db(db_name,sql):
+def create_table_in_db(db_name):
     print(f"Creating a table in the Data base {db_name}")
     print("The Defalut Columns are Serial Number : s_no, Item Name: item_name, Item Quantity: item_quantity, Total Price: tot_price: ")
     agree = str(input("Do You Want To Create the Table with the following stroge options: (y/n)"))
     if agree.lower() == "y":
-        sql = "CREATE TABLE"
-        perform_sql_operation()
-         
-    pass
+        table_name = str(input("Enter Table Name to add in the Data Base: "))
+        sql = f"CREATE TABLE {table_name} (s_no INT AUTO_INCREMENT PRIMARY KEY, item_name VARCHAR(50) NOT NULL,item_quantity INT NOT NULL, total_price DECIMAL(10,2) NOT NULL, price_per_unit DECIMAL(10,2) GENERATED ALWAYS AS (total_price/item_quantity) STORED);"
+        perform_sql_operation(sql)
+        
 
 '''The Following Function is to add a new record in the local database, The values are s.no, item_name, 
     item_quantity, item_price, bought_on.'''
