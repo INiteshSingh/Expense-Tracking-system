@@ -1,8 +1,10 @@
 import os
+import mysql.connector 
 import my_classes as c
 #This Module is for storing all the functions for the Expense Tracking System 
 
-def banner():
+"""Prints a Banner with some Art on the terminal"""
+def banner():   
     print(r"""  _______  ______  _____ _   _ ____  _____   
  | ____\ \/ /  _ \| ____| \ | / ___|| ____|  
  |  _|  \  /| |_) |  _| |  \| \___ \|  _|    
@@ -14,7 +16,7 @@ def banner():
    |_| |_| \_\/_/   \_\____|_|\_\_____|_| \_\
                                              """)
 def menu():
-    print("1.Create a New Record")
+    print("1.Create a New Data Base")
     print("2.Add New Records")
     print("3.View Current Records")
     print("4.Delete a Record")
@@ -23,24 +25,56 @@ def menu():
 
 '''This Function When Called Creates a New Folder on the desktop named "Records" and all the records are present 
     in that folder'''
-def createRecord():
+
+def perform_sql_operation(sql):
     try:
-        File_path = "C:\\Users\\nt984\\Desktop\\Expense-Tracking-System\\Records" #Creates a Folder Named Reocrds
-        if os.path.exists(File_path):
-            print("The File Already Exists Write The Data in it")
-        elif not os.path.exists(File_path):
-            os.makedirs(File_path)
-            print("Folder Created Successuflly at the following location {}".format(str(File_path)))
-        with open( "C:\\Users\\nt984\\Desktop\\Expense-Tracking-System\\Records\\record1.txt",'w') as f: #Creates a new file Named record.txt to store the records in the records folder.
-            data = "Python Expense Tracking System For Traking My Expenses\n"
-            f.write(data)
-    except FileExistsError:
-        print("File Alreay Exits")
-    except :
-        print("Some Error Occured try again :/")
+        conn = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "nitesh@1357"
+        )
+
+        cursor = conn.cursor()
+        
+        cursor.execute(sql)
+
+        print("Exectuing Your SQL Query ⏳")
+        print("Executed Your Query successfully ✅")
+
+        cursor.close()
+        conn.close()
+    except Exception as e:
+         print(f"⚠️ Warning Some Error Occured {e}")
+         
+"""Creting a new Data base locally"""
+def createDatabase():
+    try:
+        print("You Are Attempting to Create a New Data Base 📦")
+        agree = str(input("Do You Want to Create a new Data Base ? (y/n): "))
+        if agree.lower() ==  "y":
+            print(f"Got input {agree}, Creating A New DataBase 🔄")
+            db_name = str(input("Enter Your Desired Data Base Name: "))
+            sql = f"CREATE DATABASE {db_name}"
+
+    except ValueError:
+        print("Error Occured ❌, Enter Valid Input: ")
+    except Exception as e:
+         print("Warning Some Error Occured ⚠️: \n {e}")
+    return sql
 
 
-'''The Following Function is to add a new record in the file, The item.'''
+def create_table_in_db(db_name,sql):
+    print(f"Creating a table in the Data base {db_name}")
+    print("The Defalut Columns are Serial Number : s_no, Item Name: item_name, Item Quantity: item_quantity, Total Price: tot_price: ")
+    agree = str(input("Do You Want To Create the Table with the following stroge options: (y/n)"))
+    if agree.lower() == "y":
+        sql = "CREATE TABLE"
+        perform_sql_operation()
+         
+    pass
+
+'''The Following Function is to add a new record in the local database, The values are s.no, item_name, 
+    item_quantity, item_price, bought_on.'''
 def addNewRecord():
         try:
             s = c.item()
