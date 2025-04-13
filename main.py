@@ -9,15 +9,14 @@ try:
         print("*"*70)
 
         choice = int(input("Enter Your Choice Of Operation: "))
-        m.validate_choice(choice)
         print("*"*70)
 
         match choice:
             case 1:
-                m.createDatabase()
+                m.create_new_db()
 
             case 2:
-                m.create_table_in_db()
+                m.create_new_table()
             
             case 3:
                 m.addNewRecord()
@@ -34,4 +33,4 @@ except ValueError:
     print("Enter Correct Choice")
 
 except Exception as err:
-    print("Some Error Occured: \n {err}")
+    print(f"Some Error Occured: \n {err}")
