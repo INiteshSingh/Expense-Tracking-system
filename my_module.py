@@ -1,8 +1,12 @@
 import os
-import my_classes as c
+import mysql.connector 
+from mysql.connector import Error
+import myClass as c
+
 #This Module is for storing all the functions for the Expense Tracking System 
 
-def banner():
+"""Prints a Banner with some Art on the terminal"""
+def banner():   
     print(r"""  _______  ______  _____ _   _ ____  _____   
  | ____\ \/ /  _ \| ____| \ | / ___|| ____|  
  |  _|  \  /| |_) |  _| |  \| \___ \|  _|    
@@ -14,66 +18,93 @@ def banner():
    |_| |_| \_\/_/   \_\____|_|\_\_____|_| \_\
                                              """)
 def menu():
-    print("1.Create a New Record")
-    print("2.Add New Records")
-    print("3.View Current Records")
-    print("4.Delete a Record")
-    print("5.Get The Record in Whatsapp Message")
+    print("1.Create a New Data Base")
+    print("2.Create a New Table")
+    print("3.Add New Records")
+    print("4.View Current Records")
+    print("5.Delete a Record")
+    print("6.Perform an sql data base operation")
 
 
-'''This Function When Called Creates a New Folder on the desktop named "Records" and all the records are present 
-    in that folder'''
-def createRecord():
+def connect_and_operate(host, user, password, database=None, sql=None):
     try:
-        File_path = "C:\\Users\\nt984\\Desktop\\Expense-Tracking-System\\Records" #Creates a Folder Named Reocrds
-        if os.path.exists(File_path):
-            print("The File Already Exists Write The Data in it")
-        elif not os.path.exists(File_path):
-            os.makedirs(File_path)
-            print("Folder Created Successuflly at the following location {}".format(str(File_path)))
-        with open( "C:\\Users\\nt984\\Desktop\\Expense-Tracking-System\\Records\\record1.txt",'w') as f: #Creates a new file Named record.txt to store the records in the records folder.
-            data = "Python Expense Tracking System For Traking My Expenses\n"
-            f.write(data)
-    except FileExistsError:
-        print("File Alreay Exits")
-    except :
-        print("Some Error Occured try again :/")
-
-
-'''The Following Function is to add a new record in the file, The item.'''
-def addNewRecord():
-        try:
-            s = c.item()
-            s.getInfo()
-            s.writeData()
-        except :
-             print("Something Went Wrong Try again !")
+        conn = mysql.connector.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database
+        )
+        cursor = conn.cursor()
         
+        if sql:
+            cursor.execute(sql)
+            if sql.strip().lower().startswith(("select", "show")):
+                result = cursor.fetchall()
+                for row in result:
+                    print(row)
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print("✅ Operation completed successfully.")
+    except Error as e:
+        print(f"❌ Error: {e}")
 
-'''The Following Function is used to view all the current records, All the records are always in a single line.'''
-def viewRecords():
-        try:
-            with open('C:\\Users\\nt984\\Desktop\\Expense-Tracking-system\\Records\\record1.txt','r') as f:
-                print(f.read())
-        except FileNotFoundError:
-            print("The Specified file does not exists, Check the code for any errors or bugs")
-            
-'''The Following Function is for deleting all the current records of present in the folder'''
-def delteRecords():
+'''Performs an sql operation on the local data base the parameter -sql- is the actual sql query '''
+def perform_sql_operation(sql):
     try:
-        with open('recod.txt','w') as f:
-            f.write(" ")
-    except FileNotFoundError:
-            print("The Specified File does not exists check for code")
+        conn = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "nitesh@1357",
+        )
 
-'''Validations of Input for all the inputs in the Program'''
+        cursor = conn.cursor()
+        
+        cursor.execute(sql)
 
-def validate_choice(choice):
-    right_options = list(val for val in range(1,6))
-    if choice not in right_options:
-        print("Enter Only the Following Values: {}".format(right_options))
+        print("Exectuing Your SQL Query ⏳")
+        print("Executed Your Query successfully ✅")
 
-def validate_choice1(choice):
-    right_options = ["y","n"] 
-    if choice not in right_options:
-        print("Enter Options only From {}".format(right_options))
+         # If it's a SELECT/SHOW query, fetch results
+        if sql.strip().lower().startswith(("select", "show")):
+            results = cursor.fetchall()
+            for row in results:
+                print(row)  # Optional: show results to user
+
+        cursor.close()
+        conn.close()
+    except Exception as e:
+         print(f"⚠️ Warning Some Error Occured: \n \t{e}")
+         
+
+def create_new_db():
+    print("You are Attempting to Create a New Database")
+    choice = str(input("Do You Want to create a New Database (y/n): "))
+    if choice.lower() == "y":
+        print("Enter Desired Name for your Data Base: ")
+        global db_name 
+        db_name = str(input("Enter a Name For Your Database: "))
+        connect_and_operate("localhost","root","nitesh@1357",sql=f"CREATE DATABASE IF NOT EXISTS {db_name};")
+        print("Creating a New Database 🗂️")
+        print("Created Database Successfully ✅")
+    else:
+        print("Database Creation Cancelled ❌")
+
+def create_new_table():
+    try:
+        print("You are Attempting to Create a New Table")
+        choice = str(input("Do You Want to create a New Table (y/n): "))
+        if choice.lower() == "y":
+            table_name = str(input("Enter Table Name To Create: "))
+            if table_name == " ":
+                print("Enter Correct Value for Table Name: ")
+            else:
+                sql = f"CREATE TABLE {table_name} ;"
+                connect_and_operate("localhost","root","nitesh@1357","purchase_records",sql)
+                print("Creating New Table 🗂️")
+                print("New Table Created Successfully ✅")
+        else:
+            print("Table Creation Cancelled ❌")
+    except ValueError:
+        print("Enter Correct Choice")
